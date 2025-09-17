@@ -32,9 +32,11 @@ body{
     justify-content: flex-end;
     align-items: center;
     padding-right: 20px;
+    flex-wrap: nowrap;
 }
 #display p{
-    font-size: 65px;
+    font-size: 55px;
+    margin:0;
 }
 
 
