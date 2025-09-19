@@ -10,10 +10,16 @@ function multiplier(a,b){
 }
 function divider(a,b){
     if(b===0){
-       clear();
+       secondNum="";
+       operator ="";
+       console.log("Im entering");
+       console.log(operator);
        return "undefined"
+       
     }else{
+        console.log("I´m dividing");
         return (a/b).toString();
+        
     }
     
 }
@@ -26,6 +32,15 @@ let secondNum="";
 let firstPassOperation = true;
 
 function populate(value){
+        if(displayText.textContent === "undefined" || 
+        displayText.textContent === "error"){
+        clear();
+    }
+    if(parseInt(value) !== parseFloat(value)){
+        console.log(value);
+        console.log(parseFloat(value).toFixed(2).toString());
+        value= parseFloat(value).toFixed(2).toString();
+    }
     if(operator !=="" && firstNum !=="" && 
         firstPassOperation ===true ){
         displayText.textContent = "";  
@@ -36,8 +51,10 @@ function populate(value){
         displayText.textContent == "0"){
         displayText.textContent = "";
     }
-
-    if(displayText.textContent.length === 9){
+    if(parseFloat(value) > 999999999){
+        displayText.textContent = "error";
+    }
+    else if(displayText.textContent.length === 9){
         displayText.textContent = displayText.textContent;
     }else{
         displayText.textContent += value;
@@ -46,33 +63,37 @@ function populate(value){
 }
 
 function operate(){
-    secondNum=displayText.textContent;
-    let firstNumValue = parseFloat(firstNum);
-    let secondNumValue = parseFloat(secondNum);
-   
-    console.log(firstNumValue);
-    console.log(secondNumValue);
-    let result = "";
-    
-    switch(operator){
-        case "+":
-            result = adder(firstNumValue,secondNumValue);
-            break;
-        case "-":
-            result = minuer(firstNumValue,secondNumValue);
-            break;
-        case "x":
-            result = multiplier(firstNumValue,secondNumValue);
-            break;
-        case "d":
-            result = divider(firstNumValue,secondNumValue);
-            break;
-        default:
-            //
+    if(operator !== ""){    
+        secondNum=displayText.textContent;
+        let firstNumValue = parseFloat(firstNum);
+        let secondNumValue = parseFloat(secondNum);
+
+        let result = "";
+        
+        switch(operator){
+            case "+":
+                result = adder(firstNumValue,secondNumValue);
+                break;
+            case "-":
+                result = minuer(firstNumValue,secondNumValue);
+                break;
+            case "x":
+                result = multiplier(firstNumValue,secondNumValue);
+                break;
+            case "d":
+                result = divider(firstNumValue,secondNumValue);
+                break;
+            default:
+                //
+        }
+        displayText.textContent = "";
+        if(result !== "undefined"){
+            populate(result);
+        }else{
+            displayText.textContent = "undefined";
+        }
+        firstPassOperation = true;
     }
-    displayText.textContent = "";
-    populate(result);
-    firstPassOperation = true;
 }
 
 function clear(){
@@ -110,16 +131,25 @@ plusButton.addEventListener("click",() => {
 })
 
 minusButton.addEventListener("click",() => {
+    if(firstPassOperation ===false){
+        operate();
+    }
     firstPassOperation =true;
     operator ="-";
     firstNum = displayText.textContent; 
 })
 multiplyButton.addEventListener("click",() => {
+    if(firstPassOperation ===false){
+        operate();
+    }
     firstPassOperation =true;
     operator ="x";
     firstNum = displayText.textContent; 
 })
 divideButton.addEventListener("click",() => {
+    if(firstPassOperation ===false){
+        operate();
+    }
     firstPassOperation =true;
     operator ="d";
     firstNum = displayText.textContent; 
