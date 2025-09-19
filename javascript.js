@@ -31,16 +31,24 @@ let secondNum="";
 
 let firstPassOperation = true;
 
+const pointButton = document.querySelector("#numberpoint");
+
 function populate(value){
-        if(displayText.textContent === "undefined" || 
+
+
+    if(displayText.textContent === "undefined" || 
         displayText.textContent === "error"){
         clear();
     }
-    if(parseInt(value) !== parseFloat(value)){
-        console.log(value);
-        console.log(parseFloat(value).toFixed(2).toString());
-        value= parseFloat(value).toFixed(2).toString();
+    if(value === "."){
+        pointButton.disabled = true;
+    }else{
+        if(parseInt(value) !== parseFloat(value)){
+            
+            value= parseFloat(value).toFixed(2).toString();
     }
+    }
+    
     if(operator !=="" && firstNum !=="" && 
         firstPassOperation ===true ){
         displayText.textContent = "";  
@@ -63,6 +71,7 @@ function populate(value){
 }
 
 function operate(){
+    pointButton.disabled = false;
     if(operator !== ""){    
         secondNum=displayText.textContent;
         let firstNumValue = parseFloat(firstNum);
@@ -120,8 +129,11 @@ const minusButton =document.querySelector("#minus");
 const multiplyButton =document.querySelector("#multiply");
 const divideButton =document.querySelector("#divide");
 const equalButton =document.querySelector("#equal");
+const backspaceButton =document.querySelector("#backspace");
+
 
 plusButton.addEventListener("click",() => {
+    pointButton.disabled = false;
     if(firstPassOperation ===false){
         operate();
     }
@@ -131,6 +143,7 @@ plusButton.addEventListener("click",() => {
 })
 
 minusButton.addEventListener("click",() => {
+    pointButton.disabled = false;
     if(firstPassOperation ===false){
         operate();
     }
@@ -139,6 +152,7 @@ minusButton.addEventListener("click",() => {
     firstNum = displayText.textContent; 
 })
 multiplyButton.addEventListener("click",() => {
+    pointButton.disabled = false;
     if(firstPassOperation ===false){
         operate();
     }
@@ -147,6 +161,7 @@ multiplyButton.addEventListener("click",() => {
     firstNum = displayText.textContent; 
 })
 divideButton.addEventListener("click",() => {
+    pointButton.disabled = false;
     if(firstPassOperation ===false){
         operate();
     }
@@ -156,3 +171,72 @@ divideButton.addEventListener("click",() => {
 })
 
 equalButton.addEventListener("click",operate);
+
+backspaceButton.addEventListener("click",() =>{
+    if(displayText.textContent.length === 1){
+        displayText.textContent ="0";
+    }else{
+        let current=displayText.textContent;
+        displayText.textContent =current.slice(0,current.length-1);
+    }
+});
+
+document.addEventListener("keydown",(e) =>{
+    if(Number.isInteger(parseInt(e.key)) || e.key === "."){
+         populate(e.key);
+    }else{
+        switch(e.key){
+            case "+":
+                pointButton.disabled = false;
+                if(firstPassOperation ===false){
+                    operate();
+                }
+                firstPassOperation =true;
+                operator ="+";
+                firstNum = displayText.textContent; 
+                break;
+            case "-":
+                pointButton.disabled = false;
+                if(firstPassOperation ===false){
+                    operate();
+                }
+                firstPassOperation =true;
+                operator ="-";
+                firstNum = displayText.textContent; 
+                break;
+            case "*":
+                pointButton.disabled = false;
+                if(firstPassOperation ===false){
+                    operate();
+                }
+                firstPassOperation =true;
+                operator ="x";
+                firstNum = displayText.textContent; 
+                break;
+            case "/":
+                pointButton.disabled = false;
+                if(firstPassOperation ===false){
+                    operate();
+                }
+                firstPassOperation =true;
+                operator ="d";
+                firstNum = displayText.textContent; 
+                break;
+            case "Enter":
+                operate();
+                break;
+            case "Backspace":
+                if(displayText.textContent.length === 1){
+                    displayText.textContent ="0";
+                }else{
+                    let current=displayText.textContent;
+                    displayText.textContent =current.slice(0,current.length-1);
+                }
+                break;
+            case "Delete":
+                clear();
+                break;
+        }
+    }
+       
+} )
