@@ -16,8 +16,8 @@ body{
     background-color: #191919;
     align-items: center;
     justify-content: space-around;
-    width:70vh;
-    height:60vh;
+    width:80vh;
+    height:70vh;
     padding: 20px;
     border-radius: 25px;
 }
@@ -43,7 +43,7 @@ body{
 #container{
     display:flex;
    
-    width:80%;
+    width:90%;
     height: 75%;
     margin-top: 0;
 }
